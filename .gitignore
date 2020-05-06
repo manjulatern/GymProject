@@ -1,0 +1,25 @@
+# Created by https://www.gitignore.io
+
+### OSX ###
+.DS_Store
+
+
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
+### Python ###
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+
+### Django ###
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
+
+.env
+db.sqlite3

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block body_content %}
+    
+    <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Gym Dashboard</h1>
+          </div>
+
+    <h1>{{ post_title }}</h1>
+ 
+    <p>Published by <span>Author : {{ author }} </span></p>
+    
+    <p>{{ post_content }}</p>
+ 
+    <p>Related Posts:</p>
+    <ul>
+        {% for item in item_list %}
+            <li>{{ item }}</li>
+        {% endfor %}
+    </ul>
+ 
+    {% if comments %}
+        <p>This post has some comments</p>
+    {% else %}
+        <p>This post has no comments</p>
+    {% endif %}
+
+{% endblock %}
