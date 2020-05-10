@@ -7,4 +7,113 @@
             <h1 class="h3 mb-0 text-gray-800">Gym Dashboard | User Profile</h1>
           </div>
 
+<div class="row">
+
+            <!-- Area Chart -->
+            <div class="col-xl-8 col-lg-7">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">My Profile</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                	{% if message %}
+                    <div class="alert alert-info alert-dismissible fade show" role="alert">
+                      {{message}}
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    {% endif %}
+                  <form action="/profile/" method="POST">
+                  	{% csrf_token %}
+                  	<div class="form-group row">
+					    <label for="full_name" class="col-sm-2 col-form-label">Full Name</label>
+					    <div class="col-sm-10">
+					      <input type="text" readonly class="form-control-plaintext" id="full_name" name="full_name" value="{{user.full_name}}">
+					    </div>
+					 </div>
+
+					  <div class="form-group row">
+					    <label for="username" class="col-sm-2 col-form-label">Username</label>
+					    <div class="col-sm-10">
+					      <input type="text" readonly class="form-control-plaintext" name="username" id="username" value="{{user.username}}">
+					    </div>
+					  </div>
+
+					  <div class="form-group row">
+					    <label for="email" class="col-sm-2 col-form-label">Email</label>
+					    <div class="col-sm-10">
+					      <input type="text" readonly class="form-control-plaintext" id="email" value="{{user.email}}">
+					    </div>
+					  </div>
+
+					  <div class="form-group row">
+					    <label for="phone_number" class="col-sm-2 col-form-label">Phone Number</label>
+					    <div class="col-sm-10">
+					      <input type="text" name="phone_number" name="phone_number" class="form-control" id="phone_number" value="{{user.phone_number}}">
+					    </div>
+					  </div>
+
+					  <div class="form-group row">
+					    <label for="address" class="col-sm-2 col-form-label">Address</label>
+					    <div class="col-sm-10">
+					      <input type="text" name="address" class="form-control" id="address" value="{{user.address}}">
+					    </div>
+					  </div>
+					<fieldset class="form-group">
+					    <div class="row">
+					      <legend class="col-form-label col-sm-2 pt-0">User Type</legend>
+					      <div class="col-sm-10">
+					        <div class="form-check">
+					          <input class="form-check-input" type="radio" name="user_type" id="gridRadios1" onclick="showHidePanVatNumber('member')" value="0" {% if user.user_type == 0 %} checked="checked" {% endif %}">
+					          <label class="form-check-label" for="gridRadios1">
+					            Member
+					          </label>
+					        </div>
+					        <div class="form-check">
+					          <input class="form-check-input" type="radio" name="user_type" id="gridRadios2" value="1"  onclick="showHidePanVatNumber('gym_owner')" {% if  user.user_type == 1 %} checked {% endif %}>
+					          <label class="form-check-label" for="gridRadios2">
+					            Gym Owner
+					          </label>
+					        </div>
+					      </div>
+					    </div>
+  					</fieldset>
+
+  					<div class="form-group row" id="pan_vat_number_id" style="display:none">
+					    <label for="pan_vat_number" class="col-sm-2 col-form-label">PAN-VAT Number</label>
+					    <div class="col-sm-10">
+					      <input type="text" name="pan_vat_number" name="pan_vat_number" class="form-control" id="pan_vat_number" value="{{user.pan_vat_number}}">
+					    </div>
+					  </div>
+
+					<div class="form-group row">
+					    <label for="status" class="col-sm-2 col-form-label">Status</label>
+					    <div class="col-sm-10">
+					      <input type="text" readonly class="form-control-plaintext" id="status" name="status" value="Active">
+					    </div>
+					 </div>
+
+					 <button type="submit" class="btn btn-primary btn-user btn-block"> Update Profile </button>
+
+					</form>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pie Chart -->
+            <div class="col-xl-4 col-lg-5">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Upload Profile Image</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+
+              </div>
+            </div>
+          </div>
 {% endblock %}

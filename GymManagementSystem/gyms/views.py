@@ -116,9 +116,31 @@ def activate(request):
 def profile(request):
 	context = {}
 	template = loader.get_template('profile.html')
+	message = ""
 	if is_authenticated(request):
-		context = {'logged_in': True}
+		username = request.session['username']
+		user = User.objects.filter(username=username).first()
+		if request.method == 'POST':
+			phone_number = request.POST.get('phone_number')
+			user_type = int(request.POST.get('user_type'))
+			address = request.POST.get('address')
+			pan_vat_number = request.POST.get('pan_vat_number')
+			if user_type == 0:
+				pan_vat_number = ""
+
+			user.phone_number = phone_number
+			user.user_type = user_type
+
+			user.pan_vat_number = pan_vat_number
+			user.address = address
+			user.save()
+			message = "Your Profile has been updated"
+			print(user.user_type)
+			context = {'logged_in': True,'user':user,'message':message}
+		else:
+			context = {'logged_in': True,'user':user,'message':message}
 		return HttpResponse(template.render(context, request))
+
 	else:
 		return redirect('/login')
 

@@ -88,6 +88,18 @@
   <!-- Page level custom scripts -->
   <script src="{% static 'admin/js/demo/chart-area-demo.js' %}"></script>
   <script src="{% static 'admin/js/demo/chart-pie-demo.js' %}"></script>
+  <script type="text/javascript">
+        
+        function showHidePanVatNumber(user_type){
+            if(user_type=="gym_owner") {
+                document.getElementById("pan_vat_number_id").style.display = "flex";
+            }
+            else if(user_type=="member") {
+                document.getElementById("pan_vat_number_id").style.display = "none";
+            }
+    }
 
+
+</script>
 </body>
 </html>
