@@ -13,6 +13,7 @@ class User(models.Model):
 	user_type = models.IntegerField(default=0)
 	status = models.CharField(max_length=40)
 	token = models.CharField(default="",max_length=200)
+	profile_complete = models.IntegerField(default=0)
 
 class Gym(models.Model):
 	name = models.CharField(max_length=200)

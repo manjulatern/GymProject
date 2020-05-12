@@ -81,14 +81,21 @@
 					      </div>
 					    </div>
   					</fieldset>
-
-  					<div class="form-group row" id="pan_vat_number_id" style="display:none">
+  					{% if user.pan_vat_number %}
+  					<div class="form-group row" id="pan_vat_number_id">
 					    <label for="pan_vat_number" class="col-sm-2 col-form-label">PAN-VAT Number</label>
 					    <div class="col-sm-10">
 					      <input type="text" name="pan_vat_number" name="pan_vat_number" class="form-control" id="pan_vat_number" value="{{user.pan_vat_number}}">
 					    </div>
 					  </div>
-
+					  {% else %}
+					  <div class="form-group row" id="pan_vat_number_id" style="display:none">
+					    <label for="pan_vat_number" class="col-sm-2 col-form-label">PAN-VAT Number</label>
+					    <div class="col-sm-10">
+					      <input type="text" name="pan_vat_number" name="pan_vat_number" class="form-control" id="pan_vat_number" value="">
+					    </div>
+					  </div>
+					  {% endif %}
 					<div class="form-group row">
 					    <label for="status" class="col-sm-2 col-form-label">Status</label>
 					    <div class="col-sm-10">

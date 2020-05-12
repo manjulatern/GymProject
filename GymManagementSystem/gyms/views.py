@@ -12,7 +12,19 @@ from gyms.models import *
 # Create your views here.
 def index(request):
 	template = loader.get_template('index.html')
+	logged_in = False
+	user = ''
+	profile_complete = 0
+	if is_authenticated(request):
+		user = request.session.get('username')
+		profile_complete = request.session.get('profile_complete')
+		print(profile_complete)
+		logged_in = True
+
 	context = {
+			'logged_in': logged_in,
+			'username':user,
+			'profile_complete': profile_complete,
 			'post_title': "This is a new Post",
 			'author': 'ManjulB',
 			'post_content': 'This is the content of a post',
@@ -30,10 +42,14 @@ def login(request):
 		user = User.objects.filter(username=username,password=password,status='Active').first()
 		if user:
 			request.session['username'] = username
+			request.session['profile_complete'] = user.profile_complete
 			template = loader.get_template('index.html')
+			if user.profile_complete == 0:
+				template = loader.get_template('profile.html')
 			context = {
 				'logged_in': True,
-				'user': user
+				'user': user,
+				'profile_complete': user.profile_complete
 			}
 		else:
 			template = loader.get_template('login.html')
@@ -121,24 +137,34 @@ def profile(request):
 		username = request.session['username']
 		user = User.objects.filter(username=username).first()
 		if request.method == 'POST':
-			phone_number = request.POST.get('phone_number')
+			phone_number = request.POST.get('phone_number').strip()
 			user_type = int(request.POST.get('user_type'))
-			address = request.POST.get('address')
-			pan_vat_number = request.POST.get('pan_vat_number')
+			address = request.POST.get('address').strip()
+			pan_vat_number = request.POST.get('pan_vat_number').strip()
 			if user_type == 0:
 				pan_vat_number = ""
+			profile_complete = 0
 
+			if user_type == 0:
+				if phone_number and address:
+					profile_complete = 1
+
+			if user_type == 1:
+				if phone_number and address and pan_vat_number:
+					profile_complete = 1
+			
 			user.phone_number = phone_number
 			user.user_type = user_type
+			user.profile_complete = profile_complete
 
 			user.pan_vat_number = pan_vat_number
 			user.address = address
 			user.save()
+			request.session['profile_complete'] = user.profile_complete
 			message = "Your Profile has been updated"
-			print(user.user_type)
-			context = {'logged_in': True,'user':user,'message':message}
+			context = {'logged_in': True,'user':user, 'username':username,'profile_complete':profile_complete,'message':message}
 		else:
-			context = {'logged_in': True,'user':user,'message':message}
+			context = {'logged_in': True,'user':user,'username':username,'profile_complete': user.profile_complete, 'message':message}
 		return HttpResponse(template.render(context, request))
 
 	else:
