@@ -5,6 +5,8 @@ from django.http import HttpResponse
 from django.core.mail import send_mail, EmailMessage
 from django.template.loader import render_to_string
 from django.conf import settings
+from django.core.files.storage import FileSystemStorage
+
 
 from uuid import uuid4
 
@@ -167,6 +169,26 @@ def profile(request):
 			context = {'logged_in': True,'user':user,'username':username,'profile_complete': user.profile_complete, 'message':message}
 		return HttpResponse(template.render(context, request))
 
+	else:
+		return redirect('/login')
+
+def profile_image(request):
+	if is_authenticated(request):
+		context = {}
+		username = request.session.get('username')
+		user = User.objects.filter(username=username).first()
+		if request.method == 'POST' and request.FILES['image']:
+			myfile = request.FILES['image']
+			fs = FileSystemStorage()
+			filename = fs.save(myfile.name, myfile)
+			user.image = filename
+			user.save()
+			uploaded_file_url = fs.url(filename)
+			template = loader.get_template('profile.html')
+			context = {
+				'uploaded_file_url': uploaded_file_url
+			}
+		return HttpResponse(template.render(context,request))
 	else:
 		return redirect('/login')
 
