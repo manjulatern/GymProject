@@ -11,6 +11,7 @@ from django.core.files.storage import FileSystemStorage
 from uuid import uuid4
 
 from gyms.models import *
+
 # Create your views here.
 def index(request):
 	template = loader.get_template('index.html')
@@ -20,12 +21,13 @@ def index(request):
 	if is_authenticated(request):
 		user = request.session.get('username')
 		profile_complete = request.session.get('profile_complete')
-		print(profile_complete)
 		logged_in = True
+		userObj = User.objects.filter(username=user).first()
 
 	context = {
 			'logged_in': logged_in,
 			'username':user,
+			'user':userObj,
 			'profile_complete': profile_complete,
 			'post_title': "This is a new Post",
 			'author': 'ManjulB',
@@ -51,6 +53,7 @@ def login(request):
 			context = {
 				'logged_in': True,
 				'user': user,
+				'username': username,
 				'profile_complete': user.profile_complete
 			}
 		else:
