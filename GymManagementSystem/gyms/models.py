@@ -21,7 +21,7 @@ class Gym(models.Model):
 	location = models.CharField(max_length=200)
 	price = models.IntegerField()
 	summary = models.TextField()
-	featured_photo = models.CharField(max_length=200)
+	featured_photo = models.CharField(max_length=200,blank=True,null=True)
 
 	user = models.ForeignKey(User,on_delete=models.CASCADE)
 

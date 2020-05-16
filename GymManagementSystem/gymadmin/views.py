@@ -2,6 +2,8 @@ from django.shortcuts import render, HttpResponse
 from django.template import loader
 from django.http import HttpResponse
 
+from .forms import GymForm
+
 from gyms.models import *
 
 # Create your views here.
@@ -23,6 +25,13 @@ def dashboard(request):
 			'profile_complete': profile_complete
 			}
 	return HttpResponse(template.render(context, request))
+
+def create_gym(request):
+	gym_form = GymForm()
+	template = loader.get_template('add_gym.html')
+	context = {'gym_form':gym_form}
+	return HttpResponse(template.render(context, request))
+
 
 def is_authenticated(request):
 	user = request.session.get('username')
