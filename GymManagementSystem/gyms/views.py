@@ -17,6 +17,7 @@ def index(request):
 	template = loader.get_template('index.html')
 	logged_in = False
 	user = ''
+	userObj = ""
 	profile_complete = 0
 	if is_authenticated(request):
 		user = request.session.get('username')
