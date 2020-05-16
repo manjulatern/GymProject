@@ -187,12 +187,7 @@ def profile_image(request):
 			filename = fs.save(myfile.name, myfile)
 			user.image = filename
 			user.save()
-			uploaded_file_url = fs.url(filename)
-			template = loader.get_template('profile.html')
-			context = {
-				'uploaded_file_url': uploaded_file_url
-			}
-		return HttpResponse(template.render(context,request))
+		return redirect('/profile')
 	else:
 		return redirect('/login')
 
