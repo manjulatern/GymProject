@@ -45,7 +45,9 @@
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{username}}</span>
+                {% if user.image.url != '' %}
                 <img class="img-profile rounded-circle" src="{{user.image.url}}">
+                {% endif %}
                 {% if profile_complete == 0 %}
                   <span class="badge badge-danger badge-counter"><i class="fas fa-1x fa-exclamation-circle"></i></span>
                   {% endif %}
