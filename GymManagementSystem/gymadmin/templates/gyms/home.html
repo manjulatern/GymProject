@@ -1,0 +1,41 @@
+{% extends "gymadmin_base.html" %}
+
+{% block gymadmin_body_content %}
+<!-- Content Row -->
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+  <h3 class="h3 mb-0 text-gray-800">Gyms | {{user}} </h3>
+  <div class="col-sm-3">
+	<a href="createGym" class="btn btn-user btn-facebook btn-block">
+                      Add Gym
+                    </a>
+	</div>
+</div>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Gym Name</th>
+      <th scope="col">Location</th>
+      <th scope="col">Average Price</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+  	{% for gym in gyms %}
+    <tr>
+      <th scope="row">{{ forloop.counter }}</th>
+      <td>{{gym.name}}</td>
+      <td>{{gym.location}}</td>
+      <td>{{gym.price}}</td>
+      <td>
+      	<a style="text-decoration: none" data-toggle="tooltip" data-placement="top" title="View Details" href="detail/{{gym.id}}"> <i class="fas fa-eye"></i> </a> &nbsp; &nbsp; &nbsp;
+      	<a style="text-decoration: none" href="edit/{{gym.id}}" data-toggle="tooltip" data-placement="top" title="Edit Gym"> <i class="fas fa-edit"></i> </a> &nbsp;&nbsp;&nbsp;
+      	<a style="text-decoration: none" data-toggle="tooltip" data-placement="top" title="Delete" href="delete/{{gym.id}}" onclick="return confirm('Are you sure want to delete Gym : {{gym.name}}')"><i class="fas fa-trash"></i></a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

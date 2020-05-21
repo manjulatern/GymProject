@@ -4,55 +4,48 @@
           <!-- Content Row -->
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h3 class="h3 mb-0 text-gray-800">Add Gym </h3>
+            <h3 class="h3 mb-0 text-gray-800">Edit Gym </h3>
           </div>
-
           <div class="container">
             <div class="row">
               <div class="col-sm-8">
-              <form action="/gymadmin/gyms/createGym/" method="POST">
+              <form action="/gymadmin/gyms/updateGym/" method="POST">
 
 
                 {% csrf_token %}
+                <input type="hidden" value="{{gym.id}}" name="gym_id"/>
                 <div class="form-group">
                   <label for="id_name">Name</label>
-                  <input type="text" class="form-control" name="name" maxlength="200" required id="id_name">
+                  <input type="text" class="form-control" value="{{gym.name}}" name="name" maxlength="200" required id="id_name">
                 </div>
-
                 <div class="form-group">
                   <label for="id_location">Location:</label>
-                  <input type="text" class="form-control" name="location" maxlength="200" required id="id_location">
+                  <input type="text" class="form-control" value="{{gym.location}}" name="location" maxlength="200" required id="id_location">
                 </div>
-
                 <div class="form-group">
                   <label for="id_price">Average Cost:</label> 
-                  <input type="number" class="form-control" name="price" required id="id_price">
+                  <input type="number" class="form-control" value="{{gym.price}}" name="price" required id="id_price">
                 </div>
-
                 <div class="form-group">
                   <label for="id_summary">Summary:</label>
-                  <textarea class="form-control" name="summary" cols="40" rows="10" id="editor">
+                  <textarea class="form-control" name="summary" cols="40" rows="10" id ="editor">
+                  {{gym.summary}}
                   </textarea>
                 </div>
-
                 <div class="form-group">
                   <label for="id_featured_photo">Featured photo:</label> 
-                  <input type="file" class="form-control-file" name="featured_photo" accept="image/*" id="id_featured_photo">
+                  <input type="file" class="form-control-file"  value="{{gym.featured_photo}}" name="featured_photo" accept="image/*" id="id_featured_photo">
                 </div>
-
                 <div class="form-group">
                   <label for="id_user">User:</label> 
-                  <input type="number" class="form-control" name="user" required id="id_user" aria-describedby="userHelp"> 
+                  <input type="number" class="form-control" name="user" required value={{gym.user.id}} id="id_user" aria-describedby="userHelp"> 
                   <small id="userHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
                 </div>
-
                 <input type="submit" class="btn btn-primary" value="Submit" />
-
               </form>
             </div>
           </div>
         </div>
-
 
 {% endblock %}
 {% block js_custom %}

@@ -48,6 +48,7 @@ def login(request):
 		if user:
 			request.session['username'] = username
 			request.session['profile_complete'] = user.profile_complete
+			request.session['user_id'] = user.pk
 			template = loader.get_template('index.html')
 			if user.profile_complete == 0:
 				template = loader.get_template('profile.html')

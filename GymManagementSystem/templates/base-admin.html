@@ -90,6 +90,17 @@
   <!-- Page level custom scripts -->
   <script src="{% static 'admin/js/demo/chart-area-demo.js' %}"></script>
   <script src="{% static 'admin/js/demo/chart-pie-demo.js' %}"></script>
-
+  <script type="text/javaScript">
+     $(function () {
+          $('[data-toggle="tooltip"]').tooltip();
+          tinymce.init({
+          selector: 'textarea#editor',
+          menubar: false
+        });
+        })
+  </script>
+  {% block js_custom %}
+  {%endblock%}
 </body>
+
 </html>
