@@ -34,7 +34,9 @@ def dashboard(request):
 
 def create_gym(request):
 	if is_authenticated(request):
+		user = request.session.get('username')
 		gym_count = request.session.get('gym_count')
+		userObj = User.objects.filter(username=user).first()
 		if request.POST:
 			gym_form = GymForm(request.POST)
 			if gym_form.is_valid():
@@ -42,22 +44,24 @@ def create_gym(request):
 				return redirect("/gymadmin/gyms")
 			else:
 				template = loader.get_template('add_gym.html')
-				context = {'gym_form':gym_form,'gym_count':gym_count}
+				context = {'gym_form':gym_form,'gym_count':gym_count,'user':userObj}
 				return HttpResponse(template.render(context, request))
 
 		gym_form = GymForm()
 		template = loader.get_template('add_gym.html')
-		context = {'gym_form':gym_form,'gym_count':gym_count,'logged_in':True}
+		context = {'gym_form':gym_form,'gym_count':gym_count,'user':userObj,'logged_in':True}
 		return HttpResponse(template.render(context, request))
 	else:
 		return redirect('/login')
 
 def edit_gym(request,gym_id):
 	if is_authenticated(request):
+		user = request.session.get('username')
+		userObj = User.objects.filter(username=user).first()
 		gym_count = request.session.get('gym_count')
 		gym = Gym.objects.filter(pk=gym_id).first()
 		template = loader.get_template('gyms/edit_gym.html')
-		context = {'gym':gym,'gym_count':gym_count,'logged_in':True}
+		context = {'gym':gym,'gym_count':gym_count,'user':userObj,'logged_in':True}
 		return HttpResponse(template.render(context, request))
 	else:	
 		return redirect('/login')
@@ -90,9 +94,10 @@ def gyms(request):
 		template = loader.get_template('gyms/home.html')
 		user = request.session.get('username')
 		user_id = request.session.get('user_id')
+		userObj = User.objects.filter(username=user).first()
 		gym_count = request.session.get('gym_count')
 		gyms = Gym.objects.filter(user_id=user_id)
-		context = {'gyms':gyms,'gym_count':gym_count,'user':user,'logged_in':True}
+		context = {'gyms':gyms,'gym_count':gym_count,'user':userObj,'logged_in':True}
 		return HttpResponse(template.render(context, request))
 	else:
 		return redirect('/login')
@@ -102,8 +107,9 @@ def gym_details(request,gym_id):
 		template = loader.get_template('gyms/details.html')
 		gym_count = request.session.get('gym_count')
 		user = request.session.get('username')
+		userObj = User.objects.filter(username=user).first()
 		gym = Gym.objects.filter(pk=gym_id).first()
-		context = {'gym':gym,'gym_count':gym_count,'user':user,'logged_in':True}
+		context = {'gym':gym,'gym_count':gym_count,'user':userObj,'logged_in':True}
 		return HttpResponse(template.render(context, request))
 	else:
 		return redirect('/login')
