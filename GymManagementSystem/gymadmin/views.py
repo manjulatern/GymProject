@@ -60,9 +60,12 @@ def edit_gym(request,gym_id):
 		userObj = User.objects.filter(username=user).first()
 		gym_count = request.session.get('gym_count')
 		gym = Gym.objects.filter(pk=gym_id).first()
-		template = loader.get_template('gyms/edit_gym.html')
-		context = {'gym':gym,'gym_count':gym_count,'user':userObj,'logged_in':True}
-		return HttpResponse(template.render(context, request))
+		if gym.user_id == userObj.id:
+			template = loader.get_template('gyms/edit_gym.html')
+			context = {'gym':gym,'gym_count':gym_count,'user':userObj,'logged_in':True}
+			return HttpResponse(template.render(context, request))
+		else:
+			return redirect('/gymadmin/gyms')
 	else:	
 		return redirect('/login')
 
@@ -109,8 +112,11 @@ def gym_details(request,gym_id):
 		user = request.session.get('username')
 		userObj = User.objects.filter(username=user).first()
 		gym = Gym.objects.filter(pk=gym_id).first()
-		context = {'gym':gym,'gym_count':gym_count,'user':userObj,'logged_in':True}
-		return HttpResponse(template.render(context, request))
+		if gym.user_id == userObj.id:
+			context = {'gym':gym,'gym_count':gym_count,'user':userObj,'logged_in':True}
+			return HttpResponse(template.render(context, request))
+		else:
+			return redirect('/gymadmin/gyms')
 	else:
 		return redirect('/login')
 
@@ -118,10 +124,11 @@ def gym_delete(request,gym_id):
 	if is_authenticated(request):
 		#template = loader.get_template('gyms/details.html')
 		#gym_count = request.session.get('gym_count')
-		#user = request.session.get('username')
+		user = request.session.get('username')
+		userObj = User.objects.filter(username=user).first()
 		gym = Gym.objects.filter(pk=gym_id).first()
-		gym.delete()
-		#context = {'gym':gym,'gym_count':gym_count,'user':user}
+		if gym.user_id == userObj.id:
+			gym.delete()
 		return redirect('/gymadmin/gyms')
 	else:
 		return redirect('/login')

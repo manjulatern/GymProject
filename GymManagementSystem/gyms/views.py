@@ -7,6 +7,8 @@ from django.template.loader import render_to_string
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 
 from uuid import uuid4
 
@@ -19,11 +21,24 @@ def index(request):
 	user = ''
 	userObj = ""
 	profile_complete = 0
+	
+	page = request.GET.get('page', 1)
+	gyms = Gym.objects.all()
+	paginator = Paginator(gyms, 5)
+	
+	try:
+		gyms = paginator.page(page)
+	except PageNotAnInteger:
+		gyms = paginator.page(1)
+	except EmptyPage:
+		gyms = paginator.page(paginator.num_pages)
+
 	if is_authenticated(request):
 		user = request.session.get('username')
 		profile_complete = request.session.get('profile_complete')
 		logged_in = True
 		userObj = User.objects.filter(username=user).first()
+		
 
 	context = {
 			'logged_in': logged_in,
@@ -34,7 +49,8 @@ def index(request):
 			'author': 'ManjulB',
 			'post_content': 'This is the content of a post',
 			'item_list': ['D1','D2','D3','D4'],
-			'comments': ''
+			'comments': '',
+			'gyms':gyms
 			}
 	return HttpResponse(template.render(context, request))
 
