@@ -65,15 +65,11 @@ def login(request):
 			request.session['username'] = username
 			request.session['profile_complete'] = user.profile_complete
 			request.session['user_id'] = user.pk
-			template = loader.get_template('index.html')
 			if user.profile_complete == 0:
-				template = loader.get_template('profile.html')
-			context = {
-				'logged_in': True,
-				'user': user,
-				'username': username,
-				'profile_complete': user.profile_complete
-			}
+				return redirect('/profile')
+			else:
+				return redirect('/')
+
 		else:
 			template = loader.get_template('login.html')
 			context = {
@@ -103,7 +99,11 @@ def register(request):
 		user = User()
 		user.full_name = full_name
 		user.email = email
+		if User.objects.filter(email=user.email):
+			return render(request, 'register.html', {'error': "email already used"})
 		user.username = username
+		if User.objects.filter(username=user.username):
+			return render(request, 'register.html', {'error': "username already taken"})
 		user.password = password
 		user.status = "Inactive"
 		user.token = rand_token

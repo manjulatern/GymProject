@@ -12,7 +12,6 @@
               <div class="text-center">
                 {% if full_name %}
                 <h1 class="h4 text-gray-900 mb-4">Thank you {{full_name}}. An email is sent to {{email}} for verification. </h1>
-                }
                 {% elif activate == True %}
                 <h1 class="h4 text-gray-900 mb-4">Your account has been activated </h1>
                 <a href="/login" class="btn btn-facebook btn-user btn-block">
@@ -40,6 +39,14 @@
             <div class="p-5">
               <div class="text-center">
                 <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+                {% if error %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                      {{error}}
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    {% endif %}
               </div>
               <form class="user" action="/register/" method="POST">
                 {% csrf_token %}
