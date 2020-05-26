@@ -1,12 +1,14 @@
 {% extends "base.html" %}
 
+{% load static %}
+
+{% block body_css %}
+
+{% endblock %}  
 {% block body_content %}
     
     <!-- Page Heading -->
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Gym Dashboard</h1>
-          </div>
-                {% if profile_complete == 0 and logged_in %}
+                 {% if profile_complete == 0 and logged_in %}
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         Please complete your profile.
                       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -14,23 +16,113 @@
                       </button>
                     </div>
                     {% endif %}
-    <h1>{{ post_title }}</h1>
- 
-    <p>Published by <span>Author : {{ author }} </span></p>
-    
-    <p>{{ post_content }}</p>
- 
-    <p>Related Posts:</p>
-    <ul>
-        {% for item in item_list %}
-            <li>{{ item }}</li>
-        {% endfor %}
-    </ul>
- 
-    {% if comments %}
-        <p>This post has some comments</p>
+
+<!-- Home Page Content -->
+<div class="text-center">
+    <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+  <ol class="carousel-indicators">
+    <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
+    <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
+    <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
+  </ol>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="static/images/gym1.jpg" class="d-block w-100" alt="..." style="height: 600px!important;">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>First slide label</h5>
+        <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="static/images/gym2.jpeg" class="d-block w-100" alt="..." style="height: 600px!important;">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>Second slide label</h5>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="static/images/gym3.jpeg" class="d-block w-100" alt="..." style="height: 600px!important;">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>Third slide label</h5>
+        <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+      </div>
+    </div>
+  </div>
+  <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+</div>
+
+<hr/>
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Gym Dashboard</h1>
+</div>
+<div class="row">
+{% for gym in gyms %}
+
+    <div class="col-md-4">
+        <div class="card" style="width: 18rem;">
+          <img src="static/images/gym3.jpeg" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title text-center">{{gym.name}}</h5>
+          </div>
+        </div>
+    </div>
+{% endfor %}
+</div>
+<hr/>
+{% if gyms.has_other_pages %}
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center"">
+
+    {% if gyms.has_previous %}
+    <li class="page-item">
+      <a class="page-link" href="#" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+
     {% else %}
-        <p>This post has no comments</p>
+      <li class="page-item disabled">
+        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+    </li>
+
     {% endif %}
 
+    {% for i in gyms.paginator.page_range %}
+        {% if gyms.number == i %}
+             <li class="page-item active" aria-current="page">
+                <a class="page-link" href="#">{{i}} <span class="sr-only">(current)</span></a>
+            </li>
+        {% else %}
+          <li class="page-item"><a class="page-link" href="?page={{ i }}">{{i}}</a></li>
+        {% endif %}
+    {% endfor %}
+
+    {% if gyms.has_next %}
+    <li class="page-item">
+      <a class="page-link" href="#" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+    {% else %}
+      <li class="page-item disabled">
+        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Next</a>
+    </li>
+    {% endif %}
+  </ul>
+</nav>
+{% endif %}
+<hr/>
 {% endblock %}
+{% block body_js %}
+<script type="text/javascript">
+    $('.carousel').carousel()
+</script>
+{% endblock %}  
