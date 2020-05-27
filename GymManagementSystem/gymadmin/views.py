@@ -41,6 +41,9 @@ def create_gym(request):
 			gym_form = GymForm(request.POST)
 			if gym_form.is_valid():
 				gym = gym_form.save()
+				userObj = User.objects.filter(username=user).first()
+				gymObj = Gym.objects.filter(user=userObj.pk)
+				request.session['gym_count'] = gymObj.count()
 				return redirect("/gymadmin/gyms")
 			else:
 				template = loader.get_template('add_gym.html')
