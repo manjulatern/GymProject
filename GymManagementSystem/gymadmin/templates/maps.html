@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+{% block body_content %}
+<br/>
+<br/>
+<br/>
+<hr/>
+{% block body_css %}
+ <style>
+      #map {
+        width: 100%;
+        height: 400px;
+        background-color: grey;
+      }
+    </style>
+{% endblock %}  
+    <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Google Map Integration</h1>
+          </div>
+
+<div class="row">
+<div class="card mx-auto" style="width: 50rem;">
+  <div class="card-body">
+    <div id="map"></div>
+  </div>
+</div>
+            
+</div>
+{% endblock %}
+{% block body_js %}
+<script type="text/javascript" src="{% static 'js/maps.js' %}"></script>
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBY7NtkCVpx-xvsSR4C-P-fXqJSMQYuPjI&callback=initMap">
+    </script>
+{% endblock %}  

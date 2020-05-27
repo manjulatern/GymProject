@@ -1,4 +1,15 @@
 {% extends "gymadmin_base.html" %}
+{% load static %}
+
+{% block body_css %}
+ <style>
+      #map {
+        width: 100%;
+        height: 400px;
+        background-color: grey;
+      }
+    </style>
+{% endblock %}  
 
 {% block gymadmin_body_content %}
           <!-- Content Row -->
@@ -46,15 +57,30 @@
                   <small id="userHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
                 </div>
 
+                <label for="id_user">Location:</label> 
+                <div class="card mx-auto" style="width: 50rem;">
+                  <div class="card-body">
+                    <div id="map"></div>
+                    </div>
+                </div>
+                <br/>
+                <input type="hidden" id="lat" name="latitude" value=""/>
+                <input type="hidden" id="lng" name="longitude" value=""/>
                 <input type="submit" class="btn btn-primary" value="Submit" />
 
               </form>
             </div>
           </div>
-        </div>
+            
+    </div>
 
 
 {% endblock %}
-{% block js_custom %}
+{% block body_js %}
 <script src="https://cdn.tiny.cloud/1/c5vbgy7k4cfrhy4815qesauz1v9kpen45i75iyf9x0njlmid/tinymce/5/tinymce.min.js" referrerpolicy="origin"/></script>
-{%endblock%}
+
+<script type="text/javascript" src="{% static 'js/maps.js' %}"></script>
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBY7NtkCVpx-xvsSR4C-P-fXqJSMQYuPjI&callback=initMap">
+    </script>
+{% endblock %} 
