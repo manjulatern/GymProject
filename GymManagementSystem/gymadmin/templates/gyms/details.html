@@ -1,5 +1,14 @@
 {% extends "gymadmin_base.html" %}
 
+{% block body_css %}
+ <style>
+      #gym_map {
+        width: 100%;
+        height: 400px;
+        background-color: grey;
+      }
+    </style>
+{% endblock %} 
 {% block gymadmin_body_content %}
 <!-- Content Row -->
 <!-- Page Heading -->
@@ -28,6 +37,39 @@
       <th scope="row">Featured Photo:</th>
       <td>{{gym.featured_photo}}</td>
     </tr>
+    <tr>
+      <th scope="row">Map Location: </th>
+      <td>
+        <div class="card mx-auto" style="width: 50rem;">
+        <div class="card-body">
+            <div id="gym_map"></div>
+        </div>
+      </td>
+      
+    </div>
+    </tr>
+    
   </tbody>
+  <input type="hidden" id="lat" name="latitude" value="{{gym.latitude}}"/>
+  <input type="hidden" id = "lng" name="longitude" value="{{gym.longitude}}"/>
 </table>
+{% endblock %}
+{% block body_js %}
+<script>
+// Initialize and add the map
+function initGymMap() {
+  var lat = document.getElementById('lat').value
+  var lng = document.getElementById('lng').value
+  // The location of Uluru
+  var myGym = {lat: parseFloat(lat), lng: parseFloat(lng)};
+  // The map, centered at Uluru
+  var map = new google.maps.Map(
+      document.getElementById('gym_map'), {zoom: 20, center: myGym});
+  // The marker, positioned at Uluru
+  var marker = new google.maps.Marker({position: myGym, map: map});
+}
+</script>
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBY7NtkCVpx-xvsSR4C-P-fXqJSMQYuPjI&callback&callback=initGymMap">
+    </script>
 {% endblock %}

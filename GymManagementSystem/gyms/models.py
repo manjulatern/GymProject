@@ -22,7 +22,8 @@ class Gym(models.Model):
 	price = models.IntegerField()
 	summary = models.TextField()
 	featured_photo = models.CharField(max_length=200,blank=True,null=True)
-
+	longitude = models.FloatField()
+	latitude = models.FloatField()
 	user = models.ForeignKey(User,on_delete=models.CASCADE)
 
 class UserGymRating(models.Model):

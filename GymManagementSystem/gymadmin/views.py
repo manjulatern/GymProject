@@ -7,6 +7,11 @@ from .forms import GymForm
 from gyms.models import *
 
 # Create your views here.
+
+def maps(request):
+	template = loader.get_template('maps.html')
+	return HttpResponse(template.render({}, request))
+
 def dashboard(request):
 	template = loader.get_template('dashboard.html')
 	logged_in = False

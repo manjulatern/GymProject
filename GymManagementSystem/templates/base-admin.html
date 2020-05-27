@@ -18,6 +18,7 @@
 
   <!-- Custom styles for this template-->
   <link href="{% static 'admin/css/sb-admin-2.min.css' %}" rel="stylesheet">
+  {% block body_css %}{% endblock %}  
 
 </head>
 
@@ -99,7 +100,7 @@
         });
         })
   </script>
-  {% block js_custom %}
+  {% block body_js %}
   {%endblock%}
 </body>
 
